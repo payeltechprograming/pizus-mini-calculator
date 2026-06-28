@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#202124">
+    <meta name="description" content="Pizus Mini Calculator is a fast, installable calculator with scientific, memory, history, and keyboard support.">
+    <title>Pizus Mini Calculator</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main class="app-shell" aria-label="Pizus Mini Calculator">
+      <section class="calculator-card" data-view="calculator">
+        <header class="top-bar">
+          <button class="icon-button" type="button" data-action="focus-search" aria-label="Open history search">☰</button>
+          <h1>Pizus Mini <span>Calculator</span></h1>
+          <button class="icon-button" type="button" data-nav="history" aria-label="Open history">↺</button>
+        </header>
+
+        <section class="display" aria-live="polite">
+          <div class="expression-line">
+            <div class="expression" id="expressionPreview">0</div>
+          </div>
+          <div class="memory-state" id="memoryState" hidden>MEM</div>
+          <div class="result-row">
+            <button class="copy-button" type="button" data-action="copy" aria-label="Copy result">⧉</button>
+            <output class="result" id="resultDisplay">0</output>
+          </div>
+          <p class="status-message" id="statusMessage" role="status"></p>
+        </section>
+
+        <div class="mode-tabs" role="tablist" aria-label="Calculator mode">
+          <button class="mode-tab active" type="button" data-mode="basic" role="tab" aria-selected="true">Basic</button>
+          <button class="mode-tab" type="button" data-mode="scientific" role="tab" aria-selected="false">Scientific</button>
+        </div>
+
+        <section class="keypad" aria-label="Calculator keys">
+          <div class="memory-grid">
+            <button class="calc-key memory" type="button" data-memory="mc">MC</button>
+            <button class="calc-key memory" type="button" data-memory="mr">MR</button>
+            <button class="calc-key memory" type="button" data-memory="mplus">M+</button>
+            <button class="calc-key memory" type="button" data-memory="mminus">M-</button>
+            <button class="calc-key memory" type="button" data-memory="ms">MS</button>
+            <button class="calc-key memory delete-key" type="button" data-action="delete" aria-label="Delete last character">⌫</button>
+          </div>
+
+          <div class="scientific-grid" id="scientificGrid">
+            <button class="calc-key secondary" type="button" data-fn="sin">sin</button>
+            <button class="calc-key secondary" type="button" data-fn="cos">cos</button>
+            <button class="calc-key secondary" type="button" data-fn="tan">tan</button>
+            <button class="calc-key secondary" type="button" data-insert="π">π</button>
+            <button class="calc-key secondary" type="button" data-fn="log">log</button>
+            <button class="calc-key secondary" type="button" data-fn="ln">ln</button>
+            <button class="calc-key secondary" type="button" data-wrap="square">x²</button>
+            <button class="calc-key secondary" type="button" data-insert="^">xʸ</button>
+            <button class="calc-key secondary" type="button" data-fn="sqrt">√x</button>
+            <button class="calc-key secondary" type="button" data-fn="cbrt">∛x</button>
+            <button class="calc-key secondary" type="button" data-postfix="!">x!</button>
+            <button class="calc-key secondary" type="button" data-insert="e">e</button>
+          </div>
+
+          <div class="main-grid">
+            <button class="calc-key function" type="button" data-action="clear">AC</button>
+            <button class="calc-key function" type="button" data-action="bracket">( )</button>
+            <button class="calc-key function" type="button" data-insert="%">%</button>
+            <button class="calc-key operator" type="button" data-insert="÷">÷</button>
+            <button class="calc-key number" type="button" data-insert="7">7</button>
+            <button class="calc-key number" type="button" data-insert="8">8</button>
+            <button class="calc-key number" type="button" data-insert="9">9</button>
+            <button class="calc-key operator" type="button" data-insert="×">×</button>
+            <button class="calc-key number" type="button" data-insert="4">4</button>
+            <button class="calc-key number" type="button" data-insert="5">5</button>
+            <button class="calc-key number" type="button" data-insert="6">6</button>
+            <button class="calc-key operator" type="button" data-insert="-">−</button>
+            <button class="calc-key number" type="button" data-insert="1">1</button>
+            <button class="calc-key number" type="button" data-insert="2">2</button>
+            <button class="calc-key number" type="button" data-insert="3">3</button>
+            <button class="calc-key operator" type="button" data-insert="+">+</button>
+            <button class="calc-key function" type="button" data-action="toggle-sign">+/−</button>
+            <button class="calc-key number" type="button" data-insert="0">0</button>
+            <button class="calc-key number" type="button" data-action="decimal">.</button>
+            <button class="calc-key equals" type="button" data-action="equals">=</button>
+          </div>
+        </section>
+
+        <nav class="bottom-nav" aria-label="Primary">
+          <button class="nav-item active" type="button" data-nav="calculator">
+            <span aria-hidden="true">▦</span>
+            Calculator
+          </button>
+          <button class="nav-item" type="button" data-nav="history">
+            <span aria-hidden="true">◷</span>
+            History
+          </button>
+          <button class="nav-item" type="button" data-nav="settings">
+            <span aria-hidden="true">⚙</span>
+            Settings
+          </button>
+        </nav>
+      </section>
+
+      <section class="panel-card" data-view="history" hidden>
+        <header class="panel-header">
+          <button class="icon-button" type="button" data-nav="calculator" aria-label="Back to calculator">←</button>
+          <h2>History</h2>
+          <button class="icon-button" type="button" data-action="clear-history" aria-label="Delete history">⌫</button>
+        </header>
+        <label class="search-field">
+          <span aria-hidden="true">⌕</span>
+          <input id="historySearch" type="search" autocomplete="off" aria-label="Search history">
+        </label>
+        <div class="history-list" id="historyList" aria-live="polite"></div>
+      </section>
+
+      <section class="panel-card" data-view="settings" hidden>
+        <header class="panel-header">
+          <button class="icon-button" type="button" data-nav="calculator" aria-label="Back to calculator">←</button>
+          <h2>Settings</h2>
+          <span class="header-spacer" aria-hidden="true"></span>
+        </header>
+        <div class="settings-list">
+          <div class="setting-row">
+            <div>
+              <strong>Theme</strong>
+              <small>Dark, light, or system matched</small>
+            </div>
+            <select id="themeSelect" aria-label="Theme">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="system">System</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div>
+              <strong>Auto save</strong>
+              <small>Keep history after closing the app</small>
+            </div>
+            <label class="switch">
+              <input id="autoSaveToggle" type="checkbox">
+              <span></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <div>
+              <strong>Memory</strong>
+              <small id="memoryValue">0</small>
+            </div>
+            <button class="small-action" type="button" data-memory="mc">Clear</button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <strong>Paste number</strong>
+              <small>Read a copied number into the display</small>
+            </div>
+            <button class="small-action" type="button" data-action="paste">Paste</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
